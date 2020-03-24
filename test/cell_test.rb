@@ -78,12 +78,12 @@ class CellTest < Minitest::Test
     assert_equal "H", @cell2.render
   end
 
-
-
-
-
-
-
-
-
+  def test_if_ship_is_sunk_cell_value_is_X
+    @cell2.place_ship(@cruiser)
+    @cell2.fire_upon
+    @cruiser.hit
+    @cruiser.hit
+    assert_equal true, @cruiser.sunk?
+    assert_equal "X", @cell2.render
+  end
 end
