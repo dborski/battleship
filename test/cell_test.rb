@@ -35,5 +35,17 @@ class CellTest < Minitest::Test
     assert_equal false, @cell.empty?
   end
 
+  def test_fired_upon_is_false_by_default
+    assert_equal false, @cell.fired_upon?
+  end
+
+  def test_if_firing_on_ship_lowers_health
+    @cell.place_ship(@cruiser)
+    @cell.fire_upon
+    assert_equal 2, @cell.ship.health
+  end
+
+
+
 
 end
