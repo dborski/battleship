@@ -19,6 +19,15 @@ class Board
   end
 
   def valid_placement?(ship, coordinates)
-    coordinates.length == ship.length
+    consecutive_coordinates = []
+    (1..4).each_cons(ship.length) do |nums|
+      consecutive_coordinates << nums
+    end
+
+    coordinate_nums = coordinates.map do |coordinate|
+      coordinate.split('')[1].to_i
+    end
+
+    coordinates.length == ship.length && consecutive_coordinates.any?{ |nums| nums == coordinate_nums}
   end
 end
