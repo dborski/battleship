@@ -12,4 +12,9 @@ class Board
     end
     cells_hash
   end
+
+  def valid_coordinate?(coordinate)
+    cells
+    cells_hash[coordinate]&.coordinate == coordinate
+  end
 end
