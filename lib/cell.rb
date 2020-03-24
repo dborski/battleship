@@ -1,6 +1,6 @@
 class Cell
 
-  attr_reader :coordinate, :ship, :render
+  attr_reader :coordinate, :ship
   def initialize(coordinate)
     @coordinate = coordinate
     @ship = nil
@@ -23,10 +23,18 @@ class Cell
   def fire_upon
     if empty? == false
       ship.health -= 1
+      @render = "H"
     else
       @render = "M"
     end
     @fired_upon = true
+  end
+
+  def render(ship_shown = false)
+    if @ship != nil && ship_shown == true
+      @render = "S"
+    end
+    @render
   end
 
 

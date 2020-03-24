@@ -6,8 +6,8 @@ require './lib/cell'
 class CellTest < Minitest::Test
   def setup
     @cell1 = Cell.new("B4")
-    @cruiser = Ship.new("Cruiser", 3)
     @cell2 = Cell.new("C3")
+    @cruiser = Ship.new("Cruiser", 3)
   end
 
   def test_it_exists
@@ -61,6 +61,24 @@ class CellTest < Minitest::Test
     @cell1.fire_upon
     assert_equal "M", @cell1.render
   end
+
+  def test_cell_value_is_period_with_ship_and_no_argument
+    @cell2.place_ship(@cruiser)
+    assert_equal ".", @cell2.render
+  end
+
+  def test_cell_value_is_S_with_ship_and_argument
+    @cell2.place_ship(@cruiser)
+    assert_equal "S", @cell2.render(true)
+  end
+
+  def test_cell_value_is_H_with_ship_and_fired_upon
+    @cell2.place_ship(@cruiser)
+    @cell2.fire_upon
+    assert_equal "H", @cell2.render
+  end
+
+
 
 
 
