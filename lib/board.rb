@@ -17,4 +17,8 @@ class Board
     cells
     cells_hash[coordinate]&.coordinate == coordinate
   end
+
+  def valid_placement?(ship, coordinates)
+    coordinates.length == ship.length
+  end
 end
