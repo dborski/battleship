@@ -18,7 +18,7 @@ class CellTest < Minitest::Test
   end
 
   def test_ship_is_nil_by_default
-    assert_equal nil, @cell.ship
+    assert_nil @cell.ship
   end
 
   def test_cell_is_empty_by_default
@@ -44,6 +44,14 @@ class CellTest < Minitest::Test
     @cell.fire_upon
     assert_equal 2, @cell.ship.health
   end
+
+  def test_firing_on_ship_changes_fired_upon_boolean
+    @cell.place_ship(@cruiser)
+    assert_equal false, @cell.fired_upon?
+    @cell.fire_upon
+    assert_equal true, @cell.fired_upon?
+  end
+
 
 
 
