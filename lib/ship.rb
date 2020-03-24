@@ -7,7 +7,7 @@ class Ship
   end
 
   def sunk?
-    false
+    @health < 1
   end
 
   def hit
