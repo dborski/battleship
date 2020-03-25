@@ -28,6 +28,15 @@ class Board
       coordinate.split('')[1].to_i
     end
 
-    coordinates.length == ship.length && consecutive_coordinates.any?{ |nums| nums == coordinate_nums}
+    first_letter = coordinates.first.chars.first
+    coordinate_letters = coordinates.all? do |coordinate|
+      coordinate[0] == first_letter
+    end
+    
+    if coordinate_letters == true
+      coordinates.length == ship.length && consecutive_coordinates.any?{ |nums| nums == coordinate_nums}
+    else
+      false
+    end
   end
 end
