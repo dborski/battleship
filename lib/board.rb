@@ -28,14 +28,32 @@ class Board
       coordinate.split('')[1].to_i
     end
 
+    first_coordinate = coordinates.first.chars.last
+    coordinate_same_nums = coordinates.all? do |coordinate|
+      coordinate[1] == first_coordinate
+    end
+
     first_letter = coordinates.first.chars.first
-    coordinate_letters = coordinates.all? do |coordinate|
+    coordinate_letters_boolean = coordinates.all? do |coordinate|
       coordinate[0] == first_letter
     end
-    
-    if coordinate_letters == true
+
+    consecutive_letters = []
+    ("A".ord.."D".ord).each_cons(ship.length) do |letter|
+      consecutive_letters << letter
+    end
+
+    coordinate_letters = coordinates.map do |coordinate|
+      coordinate.split('')[0].ord
+    end
+
+    if coordinate_letters_boolean == true
       coordinates.length == ship.length && consecutive_coordinates.any?{ |nums| nums == coordinate_nums}
-    else
+    elsif coordinate_same_nums == true
+      consecutive_letters.any? do |letter|
+        letter == coordinate_letters
+      end
+    elsif coordinate_letters_boolean == false
       false
     end
   end
