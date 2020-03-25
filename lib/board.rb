@@ -46,14 +46,22 @@ class Board
       coordinate.split('')[0].ord
     end
 
-    if coordinate_letters_boolean == true
-      coordinates.length == ship.length && consecutive_coordinates.any?{ |nums| nums == coordinate_nums}
-    elsif coordinate_same_nums == true
-      consecutive_letters.any? do |letter|
-        letter == coordinate_letters
-      end
-    elsif coordinate_letters_boolean == false
+    ship_on_any_coordinate = coordinates.any? do |coordinate|
+      cells[coordinate].ship
+    end
+
+    if ship_on_any_coordinate == true
       false
+    else
+      if coordinate_letters_boolean == true
+        coordinates.length == ship.length && consecutive_coordinates.any?{ |nums| nums == coordinate_nums}
+      elsif coordinate_same_nums == true
+        consecutive_letters.any? do |letter|
+          letter == coordinate_letters
+        end
+      elsif coordinate_letters_boolean == false
+        false
+      end
     end
   end
 
