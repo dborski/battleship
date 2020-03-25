@@ -1,21 +1,20 @@
 class Board
 
-  attr_reader :cells_hash
+  attr_reader :cells
   def initialize
-    @cells_hash = Hash.new
+    @cells = Hash.new
     @coordinates = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4",]
   end
 
-  def cells
+  def generate_cells
     @coordinates.each do |coordinate|
-      cells_hash[coordinate] = Cell.new(coordinate)
+      cells[coordinate] = Cell.new(coordinate)
     end
-    cells_hash
   end
 
   def valid_coordinate?(coordinate)
-    cells
-    cells_hash[coordinate]&.coordinate == coordinate
+    generate_cells
+    cells[coordinate]&.coordinate == coordinate
   end
 
   def valid_placement?(ship, coordinates)
@@ -55,6 +54,13 @@ class Board
       end
     elsif coordinate_letters_boolean == false
       false
+    end
+  end
+
+  def place(ship, coordinates)
+    generate_cells
+    coordinates.each do |coordinate|
+      cells[coordinate].ship = ship
     end
   end
 end
