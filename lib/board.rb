@@ -71,4 +71,33 @@ class Board
       cells[coordinate].ship = ship
     end
   end
+
+  def render(ship_shown = false)
+    a_line = "A\n"
+    b_line = "B\n"
+    c_line = "C\n"
+    d_line = "D\n"
+
+     cells.each do |coordinate, cell|
+       if coordinate.chars.first == "A"
+         #require "pry"; binding.pry
+         a_line.gsub!("\n", (" " + cell.render(ship_shown) + "\n"))
+       elsif coordinate.chars.first == "B"
+         b_line.gsub!("\n", (" " + cell.render(ship_shown) + "\n"))
+       elsif coordinate.chars.first == "C"
+         c_line.gsub!("\n", (" " + cell.render(ship_shown) + "\n"))
+       elsif coordinate.chars.first == "D"
+         d_line.gsub!("\n", (" " + cell.render(ship_shown) + "\n"))
+       end
+     end
+
+     rendered =
+     ("  1 2 3 4 \n" +
+      a_line +
+      b_line +
+      c_line +
+      d_line)
+    puts rendered
+    rendered
+  end
 end
