@@ -32,10 +32,12 @@ class Cell
   end
 
   def render(ship_shown = false)
-    if @ship != nil && ship_shown == true
-      @render_value = "S"
-    elsif ship != nil && ship.sunk?
+    if ship != nil && ship.sunk?
       @render_value = "X"
+    elsif ship != nil && @fired_upon == true
+      @render_value
+    elsif ship != nil && ship_shown == true
+      @render_value = "S"
     end
     @render_value
   end
