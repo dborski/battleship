@@ -4,6 +4,7 @@ class Board
   def initialize
     @cells = Hash.new
     @coordinates = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4",]
+    generate_cells
   end
 
   def generate_cells
@@ -13,7 +14,6 @@ class Board
   end
 
   def valid_coordinate?(coordinate)
-    generate_cells
     cells[coordinate]&.coordinate == coordinate
   end
 
@@ -66,9 +66,8 @@ class Board
   end
 
   def place(ship, coordinates)
-    generate_cells
     coordinates.each do |coordinate|
-      cells[coordinate].ship = ship
+      cells[coordinate].place_ship(ship)
     end
   end
 
@@ -78,18 +77,17 @@ class Board
     c_line = "C\n"
     d_line = "D\n"
 
-     cells.each do |coordinate, cell|
-       if coordinate.chars.first == "A"
-         #require "pry"; binding.pry
+    cells.each do |coordinate, cell|
+      if coordinate.chars.first == "A"
          a_line.gsub!("\n", (" " + cell.render(ship_shown) + "\n"))
-       elsif coordinate.chars.first == "B"
-         b_line.gsub!("\n", (" " + cell.render(ship_shown) + "\n"))
-       elsif coordinate.chars.first == "C"
-         c_line.gsub!("\n", (" " + cell.render(ship_shown) + "\n"))
-       elsif coordinate.chars.first == "D"
-         d_line.gsub!("\n", (" " + cell.render(ship_shown) + "\n"))
-       end
-     end
+      elsif coordinate.chars.first == "B"
+        b_line.gsub!("\n", (" " + cell.render(ship_shown) + "\n"))
+      elsif coordinate.chars.first == "C"
+        c_line.gsub!("\n", (" " + cell.render(ship_shown) + "\n"))
+      elsif coordinate.chars.first == "D"
+        d_line.gsub!("\n", (" " + cell.render(ship_shown) + "\n"))
+      end
+    end
 
      rendered =
      ("  1 2 3 4 \n" +
@@ -97,7 +95,7 @@ class Board
       b_line +
       c_line +
       d_line)
-    puts rendered
-    rendered
+
+      rendered
   end
 end

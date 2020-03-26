@@ -10,7 +10,6 @@ class BoardTest < Minitest::Test
     @board = Board.new
     @cruiser = Ship.new("Cruiser", 3)
     @submarine = Ship.new("Submarine", 2)
-    @board.generate_cells
   end
 
   def test_it_exists
@@ -111,8 +110,5 @@ class BoardTest < Minitest::Test
     cell3.fire_upon
     @board.render(true)
   end
-
-
-
 
 end
