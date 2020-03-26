@@ -87,4 +87,32 @@ class BoardTest < Minitest::Test
     @board.render(true)
   end
 
+  def test_cell_renders_H_when_hit
+    @board.place(@cruiser, ["A1", "A2", "A3"])
+    cell1 = @board.cells["A1"]
+    cell1.fire_upon
+    @board.render(true)
+  end
+
+  def test_cell_renders_M_when_hit_and_missed
+    @board.place(@cruiser, ["A1", "A2", "A3"])
+    cell1 = @board.cells["C4"]
+    cell1.fire_upon
+    @board.render(true)
+  end
+
+  def test_cell_renders_X_when_sunk
+    @board.place(@cruiser, ["A1", "A2", "A3"])
+    cell1 = @board.cells["A1"]
+    cell2 = @board.cells["A2"]
+    cell3 = @board.cells["A3"]
+    cell1.fire_upon
+    cell2.fire_upon
+    cell3.fire_upon
+    @board.render(true)
+  end
+
+
+
+
 end
