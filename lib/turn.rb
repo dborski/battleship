@@ -20,7 +20,9 @@ class Turn
 
   def computer_shoots
     input = computer_board.cells.keys.shuffle[0]
+    render_value_hash = {"M" => "was a miss", "H"=> "was a hit", "X"=>"sunk the ship"}
     @user_board.cells[input].fire_upon
+    print "My shot on #{input} #{render_value_hash[@user_board.cells[input].render]}."
   end
 
   def get_user_input
