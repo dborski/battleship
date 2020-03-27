@@ -26,7 +26,9 @@ class GameTest < Minitest::Test
     @game.main_menu
   end
 
-
+  def test_computer_ship_placement
+    puts @game.computer_board.render(true)
+  end
 
 
 end

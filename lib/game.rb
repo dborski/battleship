@@ -22,4 +22,7 @@ class Game
       exit
     end
   end
+
+  def computer_places_ships
+  end 
 end
