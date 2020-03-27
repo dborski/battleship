@@ -37,12 +37,15 @@ class TurnTest < Minitest::Test
   end
 
   def test_user_shoots
+
+    @turn.user_shoots
     @turn.user_shoots
     @turn.render_boards
   end
 
   def test_computer_shoots
-    @turn.computer_shoots
+    16.times {@turn.computer_shoots}
     @turn.render_boards
   end
+
 end
