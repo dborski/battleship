@@ -40,4 +40,9 @@ class TurnTest < Minitest::Test
     @turn.user_shoots
     @turn.render_boards
   end
+
+  def test_computer_shoots
+    @turn.computer_shoots
+    @turn.render_boards
+  end
 end
