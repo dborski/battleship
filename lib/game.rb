@@ -23,6 +23,29 @@ class Game
     end
   end
 
-  def computer_places_ships
-  end 
+  def computer_places_ships(submarine, cruiser)
+    computer_places_submarine(submarine)
+    computer_places_cruiser(cruiser)
+  end
+
+  def computer_places_submarine(submarine)
+    coordinates = []
+    submarine.length.times {coordinates <<  @computer_board.cells.keys.shuffle[0] }
+    until @computer_board.valid_placement?(submarine, coordinates)
+      coordinates.shift
+      coordinates << @computer_board.cells.keys.shuffle[0]
+    end
+    @computer_board.place(submarine, coordinates)
+  end
+
+  def computer_places_cruiser(cruiser)
+    coordinates = []
+    cruiser.length.times { coordinates << @computer_board.cells.keys.shuffle[0]}
+    until @computer_board.valid_placement?(cruiser, coordinates)
+      coordinates.shift
+      coordinates << @computer_board.cells.keys.shuffle[0]
+    end
+    @computer_board.place(cruiser, coordinates)
+  end
+
 end

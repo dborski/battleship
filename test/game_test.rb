@@ -10,11 +10,11 @@ class GameTest < Minitest::Test
   def setup
     @user_board = Board.new
     @computer_board = Board.new
+    @cruiser_user = Ship.new("Cruiser", 3)
+    @submarine_user = Ship.new("Submarine", 2)
+    @cruiser_computer = Ship.new("Cruiser", 3)
+    @submarine_computer = Ship.new("Submarine", 2)
 
-    # @cruiser_user = Ship.new("Cruiser", 3)
-    # @submarine_user = Ship.new("Submarine", 2)
-    # @cruiser_computer = Ship.new("Cruiser", 3)
-    # @submarine_computer = Ship.new("Submarine", 2)
     @game = Game.new(@user_board, @computer_board)
   end
 
@@ -27,8 +27,8 @@ class GameTest < Minitest::Test
   end
 
   def test_computer_ship_placement
+    @game.computer_places_ships(@submarine_computer, @cruiser_computer)
     puts @game.computer_board.render(true)
   end
-
 
 end

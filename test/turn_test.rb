@@ -37,8 +37,6 @@ class TurnTest < Minitest::Test
   end
 
   def test_user_shoots
-
-    @turn.user_shoots
     @turn.user_shoots
     @turn.render_boards
   end
