@@ -1,9 +1,11 @@
 class Game
 
-  attr_reader :user_board, :computer_board
-  def initialize(user_board, computer_board)
+  attr_reader :user_board, :computer_board, :user_ships, :computer_ships
+  def initialize(user_board, computer_board, user_ships, computer_ships)
     @user_board = user_board
     @computer_board = computer_board
+    @user_ships = user_ships
+    @computer_ships = computer_ships
   end
 
   def main_menu
@@ -23,7 +25,7 @@ class Game
     end
   end
 
-  def computer_places_ships(submarine, cruiser)
+  def computer_places_ships(submarine = @computer_ships[0], cruiser = @computer_ships[1])
     computer_places_submarine(submarine)
     computer_places_cruiser(cruiser)
     puts "I have laid out my ships on the grid.\nYou now need to lay out your two ships.\nThe Cruiser is three units long and the Submarine is two units long."

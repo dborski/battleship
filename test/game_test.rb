@@ -14,8 +14,10 @@ class GameTest < Minitest::Test
     @submarine_user = Ship.new("Submarine", 2)
     @cruiser_computer = Ship.new("Cruiser", 3)
     @submarine_computer = Ship.new("Submarine", 2)
+    @user_ships = [@submarine_user, @cruiser_user]
+    @computer_ships = [@submarine_computer, @cruiser_computer]
 
-    @game = Game.new(@user_board, @computer_board)
+    @game = Game.new(@user_board, @computer_board, @user_ships, @computer_ships)
   end
 
   def test_it_exists
@@ -27,7 +29,7 @@ class GameTest < Minitest::Test
   end
 
   def test_computer_ship_placement
-    @game.computer_places_ships(@submarine_computer, @cruiser_computer)
+    @game.computer_places_ships
     puts @game.computer_board.render(true)
   end
 
