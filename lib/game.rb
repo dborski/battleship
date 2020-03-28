@@ -25,10 +25,43 @@ class Game
     end
   end
 
+  def execute_turn
+    turn = Turn.new(@user_board, @computer_board)
+    turn.render_boards
+    turn.user_shoots
+    turn.computer_shoots
+  end
+
+  def user_lost
+    @user_ships.all? do |ship|
+      ship.sunk?
+    end
+  end
+
+  def computer_lost
+    @computer_ships.all? do |ship|
+      ship.sunk?
+    end
+  end
+
+  def start
+    main_menu
+    computer_places_ships
+    user_places_ships
+    until user_lost || computer_lost
+      execute_turn
+    end
+    if user_lost
+      print "I won!"
+    else computer_lost
+      print "You won!"
+    end
+  end
+
   def computer_places_ships(submarine = @computer_ships[0], cruiser = @computer_ships[1])
     computer_places_submarine(submarine)
     computer_places_cruiser(cruiser)
-    puts "I have laid out my ships on the grid.\nYou now need to lay out your two ships.\nThe Cruiser is three units long and the Submarine is two units long."
+    puts "I have laid out my ships on the grid.\nYou now need to lay out your two ships.\nThe Sumbarine is 2 units long and the Cruiser is 3 units long."
     puts @user_board.render
   end
 
@@ -52,7 +85,7 @@ class Game
     @computer_board.place(cruiser, coordinates)
   end
 
-  def user_places_ships(submarine, cruiser)
+  def user_places_ships(submarine = @user_ships[0], cruiser = @user_ships[1])
     user_places_submarine(submarine)
     user_places_cruiser(cruiser)
   end
