@@ -45,5 +45,4 @@ class TurnTest < Minitest::Test
     16.times {@turn.computer_shoots}
     @turn.render_boards
   end
-
 end

@@ -70,6 +70,7 @@ class CellTest < Minitest::Test
   def test_cell_value_is_S_with_ship_and_argument
     @cell2.place_ship(@cruiser)
     assert_equal "S", @cell2.render(true)
+    assert_equal ".", @cell2.render(false)
   end
 
   def test_cell_value_is_H_with_ship_and_fired_upon
