@@ -37,6 +37,8 @@ class Cell
       @render_value
     elsif ship != nil && ship_shown == true
       @render_value = "S"
+    elsif ship != nil && ship_shown == false
+      @render_value = "."
     end
     @render_value
   end
