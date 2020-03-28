@@ -49,5 +49,4 @@ class GameTest < Minitest::Test
   def test_start_game
     @game.start
   end
-
 end

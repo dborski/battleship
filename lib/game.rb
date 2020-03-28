@@ -45,16 +45,18 @@ class Game
   end
 
   def start
-    main_menu
-    computer_places_ships
-    user_places_ships
-    until user_lost || computer_lost
-      execute_turn
-    end
-    if user_lost
-      print "I won!"
-    else computer_lost
-      print "You won!"
+    while true
+      main_menu
+      computer_places_ships
+      user_places_ships
+      until user_lost || computer_lost
+        execute_turn
+      end
+      if user_lost
+        puts "I won!"
+      else computer_lost
+        puts "You won!"
+      end
     end
   end
 
