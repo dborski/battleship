@@ -31,4 +31,9 @@ class GameTest < Minitest::Test
     puts @game.computer_board.render(true)
   end
 
+  def test_user_ship_placement
+    @game.user_places_ships(@submarine_user, @cruiser_user)
+    puts @game.user_board.render(true)
+  end
+
 end

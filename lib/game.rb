@@ -26,6 +26,8 @@ class Game
   def computer_places_ships(submarine, cruiser)
     computer_places_submarine(submarine)
     computer_places_cruiser(cruiser)
+    puts "I have laid out my ships on the grid.\nYou now need to lay out your two ships.\nThe Cruiser is three units long and the Submarine is two units long."
+    puts @user_board.render
   end
 
   def computer_places_submarine(submarine)
@@ -46,6 +48,36 @@ class Game
       coordinates << @computer_board.cells.keys.shuffle[0]
     end
     @computer_board.place(cruiser, coordinates)
+  end
+
+  def user_places_ships(submarine, cruiser)
+    user_places_submarine(submarine)
+    user_places_cruiser(cruiser)
+  end
+
+  def user_places_submarine(submarine)
+    print "Enter the squares for the Submarine (2 spaces):\n>"
+    input = gets.chomp.upcase
+    coordinates = input.split(" ")
+    until @user_board.valid_placement?(submarine, coordinates)
+      print "Those are invalid coordinates. Please try again:\n>"
+      input = gets.chomp.upcase
+      coordinates = input.split(" ")
+    end
+    @user_board.place(submarine, coordinates)
+    puts @user_board.render(true)
+  end
+
+  def user_places_cruiser(cruiser)
+    print "Enter the squares for the Cruiser (3 spaces):\n>"
+    input = gets.chomp.upcase
+    coordinates = input.split(" ")
+    until @user_board.valid_placement?(cruiser, coordinates)
+      print "Those are invalid coordinates. Please try again:\n>"
+      input = gets.chomp.upcase
+      coordinates = input.split(" ")
+    end
+    @user_board.place(cruiser, coordinates)
   end
 
 end
