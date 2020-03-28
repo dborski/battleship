@@ -83,6 +83,7 @@ class BoardTest < Minitest::Test
 
   def test_render
     @board.place(@cruiser, ["A1", "A2", "A3"])
+    @board.render(false)
     @board.render(true)
   end
 
@@ -110,5 +111,4 @@ class BoardTest < Minitest::Test
     cell3.fire_upon
     @board.render(true)
   end
-
 end

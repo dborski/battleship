@@ -50,5 +50,4 @@ class Turn
     end
     input
   end
-
 end
