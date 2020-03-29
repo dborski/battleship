@@ -1,11 +1,11 @@
 class Game
 
-  attr_reader :user_board, :computer_board, :user_ships, :computer_ships
-  def initialize(user_board, computer_board, user_ships, computer_ships)
+  attr_reader :user_board, :computer_board
+  def initialize(user_board, computer_board)
     @user_board = user_board
     @computer_board = computer_board
-    @user_ships = user_ships
-    @computer_ships = computer_ships
+    @user_ships = [Ship.new("Submarine", 2), Ship.new("Cruiser", 3)]
+    @computer_ships = [Ship.new("Submarine", 2), Ship.new("Cruiser", 3)]
   end
 
   def start

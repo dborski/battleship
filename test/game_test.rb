@@ -10,14 +10,8 @@ class GameTest < Minitest::Test
   def setup
     @user_board = Board.new
     @computer_board = Board.new
-    @cruiser_user = Ship.new("Cruiser", 3)
-    @submarine_user = Ship.new("Submarine", 2)
-    @cruiser_computer = Ship.new("Cruiser", 3)
-    @submarine_computer = Ship.new("Submarine", 2)
-    @user_ships = [@submarine_user, @cruiser_user]
-    @computer_ships = [@submarine_computer, @cruiser_computer]
 
-    @game = Game.new(@user_board, @computer_board, @user_ships, @computer_ships)
+    @game = Game.new(@user_board, @computer_board)
   end
 
   def test_it_exists
