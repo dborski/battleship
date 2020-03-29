@@ -8,14 +8,27 @@ class Game
     @computer_ships = computer_ships
   end
 
+  def start
+    while true
+      main_menu
+      computer_places_ships
+      user_places_ships
+      until user_lost || computer_lost
+        execute_turn
+      end
+      if user_lost
+        puts "I won!"
+      else computer_lost
+        puts "You won!"
+      end
+    end
+  end
+
   def main_menu
-    puts "Welcome to BATTLESHIP"
-    puts "Enter p to play. Enter q to quit."
-    input = gets.chomp.downcase
+    input = welcome_message
     until input == "p" || input == "q"
-      puts "Welcome to BATTLESHIP"
-      puts "Enter p to play. Enter q to quit."
-      input = gets.chomp.downcase
+      welcome_message
+      input = welcome_message
     end
 
     if input == "p"
@@ -23,6 +36,12 @@ class Game
     elsif input == "q"
       exit
     end
+  end
+
+  def welcome_message
+    puts "Welcome to BATTLESHIP"
+    puts "Enter p to play. Enter q to quit."
+    gets.chomp.downcase
   end
 
   def execute_turn
@@ -41,22 +60,6 @@ class Game
   def computer_lost
     @computer_ships.all? do |ship|
       ship.sunk?
-    end
-  end
-
-  def start
-    while true
-      main_menu
-      computer_places_ships
-      user_places_ships
-      until user_lost || computer_lost
-        execute_turn
-      end
-      if user_lost
-        puts "I won!"
-      else computer_lost
-        puts "You won!"
-      end
     end
   end
 
