@@ -44,50 +44,27 @@ class Game
     gets.chomp.downcase
   end
 
-  def execute_turn
-    turn = Turn.new(@user_board, @computer_board)
-    turn.render_boards
-    turn.user_shoots
-    turn.computer_shoots
-  end
-
-  def user_lost
-    @user_ships.all? do |ship|
-      ship.sunk?
+  def computer_places_ships(ships = @computer_ships)
+    ships.each do |ship|
+      random_ship_placement(ship)
     end
-  end
-
-  def computer_lost
-    @computer_ships.all? do |ship|
-      ship.sunk?
-    end
-  end
-
-  def computer_places_ships(submarine = @computer_ships[0], cruiser = @computer_ships[1])
-    computer_places_submarine(submarine)
-    computer_places_cruiser(cruiser)
-    puts "I have laid out my ships on the grid.\nYou now need to lay out your two ships.\nThe Sumbarine is 2 units long and the Cruiser is 3 units long."
+    puts ("I have laid out my ships on the grid.\nYou now need to lay out your two ships.\n"+
+    "The #{@user_ships[0].name.capitalize} is #{@user_ships[0].length} units long and the #{@user_ships[1].name.capitalize} is #{@user_ships[1].length} units long.")
     puts @user_board.render
   end
 
-  def computer_places_submarine(submarine)
+  def random_ship_placement(ship)
     coordinates = []
-    submarine.length.times {coordinates <<  @computer_board.cells.keys.shuffle[0] }
-    until @computer_board.valid_placement?(submarine, coordinates)
+    ship.length.times {coordinates <<  computer_chooses_random_cell }
+    until @computer_board.valid_placement?(ship, coordinates)
       coordinates.shift
-      coordinates << @computer_board.cells.keys.shuffle[0]
+      coordinates << computer_chooses_random_cell
     end
-    @computer_board.place(submarine, coordinates)
+    @computer_board.place(ship, coordinates)
   end
 
-  def computer_places_cruiser(cruiser)
-    coordinates = []
-    cruiser.length.times { coordinates << @computer_board.cells.keys.shuffle[0]}
-    until @computer_board.valid_placement?(cruiser, coordinates)
-      coordinates.shift
-      coordinates << @computer_board.cells.keys.shuffle[0]
-    end
-    @computer_board.place(cruiser, coordinates)
+  def computer_chooses_random_cell
+    @computer_board.cells.keys.shuffle[0]
   end
 
   def user_places_ships(submarine = @user_ships[0], cruiser = @user_ships[1])
@@ -118,6 +95,25 @@ class Game
       coordinates = input.split(" ")
     end
     @user_board.place(cruiser, coordinates)
+  end
+
+  def execute_turn
+    turn = Turn.new(@user_board, @computer_board)
+    turn.render_boards
+    turn.user_shoots
+    turn.computer_shoots
+  end
+
+  def user_lost
+    @user_ships.all? do |ship|
+      ship.sunk?
+    end
+  end
+
+  def computer_lost
+    @computer_ships.all? do |ship|
+      ship.sunk?
+    end
   end
 
 end
