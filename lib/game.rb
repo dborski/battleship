@@ -52,17 +52,15 @@ class Game
   end
 
   def list_of_ships
-    ships_list = ""
-    @user_ships.each do |ship|
+    @user_ships.reduce("") do |ships_list, ship|
       if ship == @user_ships.first
         ships_list += "The #{ship.name.capitalize} is #{ship.length} units long"
       elsif ship == @user_ships.last
         ships_list += " and the #{ship.name.capitalize} is #{ship.length} units long."
       else
-        ships_list += the ", #{ship.name.capitalize} is #{ship.length} units long."
+        ships_list +=  ", the #{ship.name.capitalize} is #{ship.length} units long."
       end
     end
-    ships_list
   end
 
   def random_ship_placement(ship)
