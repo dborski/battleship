@@ -12,6 +12,7 @@ class Game
     while true
       main_menu
       computer_places_ships
+      tell_user_to_place_ships
       user_places_ships
       until user_lost || computer_lost
         execute_turn
@@ -23,10 +24,8 @@ class Game
   def main_menu
     input = welcome_message
     until input == "p" || input == "q"
-      welcome_message
       input = welcome_message
     end
-
     if input == "p"
       return
     elsif input == "q"
@@ -44,9 +43,26 @@ class Game
     @computer_ships.each do |ship|
       random_ship_placement(ship)
     end
-    puts ("I have laid out my ships on the grid.\nYou now need to lay out your two ships.\n"+
-    "The #{@user_ships[0].name.capitalize} is #{@user_ships[0].length} units long and the #{@user_ships[1].name.capitalize} is #{@user_ships[1].length} units long.")
+  end
+
+  def tell_user_to_place_ships
+    print "I have laid out my ships on the grid.\nYou now need to lay out your two ships.\n"
+    puts list_of_ships
     puts @user_board.render
+  end
+
+  def list_of_ships
+    ships_list = ""
+    @user_ships.each do |ship|
+      if ship == @user_ships.first
+        ships_list += "The #{ship.name.capitalize} is #{ship.length} units long"
+      elsif ship == @user_ships.last
+        ships_list += " and the #{ship.name.capitalize} is #{ship.length} units long."
+      else
+        ships_list += the ", #{ship.name.capitalize} is #{ship.length} units long."
+      end
+    end
+    ships_list
   end
 
   def random_ship_placement(ship)
