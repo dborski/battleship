@@ -30,12 +30,13 @@ class GameTest < Minitest::Test
   end
 
   def test_computer_ship_placement
+    skip
     @game.computer_places_ships
     puts @game.computer_board.render(true)
   end
 
   def test_user_ship_placement
-
+    skip
     @game.user_places_ships
     puts @game.user_board.render(true)
   end
@@ -46,7 +47,6 @@ class GameTest < Minitest::Test
   end
 
   def test_start_game
-    skip
     @game.start
   end
 end

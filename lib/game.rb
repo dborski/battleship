@@ -16,11 +16,7 @@ class Game
       until user_lost || computer_lost
         execute_turn
       end
-      if user_lost
-        puts "I won!"
-      else computer_lost
-        puts "You won!"
-      end
+      final_result
     end
   end
 
@@ -79,7 +75,9 @@ class Game
       coordinates = user_gave_invalid_coordinates
     end
     @user_board.place(ship, coordinates)
-    puts @user_board.render(true)
+    unless ship == @user_ships.last
+      puts @user_board.render(true)
+    end
   end
 
   def get_coordinates_from_user(ship)
@@ -108,6 +106,14 @@ class Game
   def computer_lost
     @computer_ships.all? do |ship|
       ship.sunk?
+    end
+  end
+
+  def final_result
+    if user_lost
+      puts "I won!"
+    elsif computer_lost
+      puts "You won!"
     end
   end
 
