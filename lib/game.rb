@@ -44,8 +44,8 @@ class Game
     gets.chomp.downcase
   end
 
-  def computer_places_ships(ships = @computer_ships)
-    ships.each do |ship|
+  def computer_places_ships
+    @computer_ships.each do |ship|
       random_ship_placement(ship)
     end
     puts ("I have laid out my ships on the grid.\nYou now need to lay out your two ships.\n"+
@@ -67,34 +67,29 @@ class Game
     @computer_board.cells.keys.shuffle[0]
   end
 
-  def user_places_ships(submarine = @user_ships[0], cruiser = @user_ships[1])
-    user_places_submarine(submarine)
-    user_places_cruiser(cruiser)
+  def user_places_ships
+    @user_ships.each do |ship|
+      user_places_one_ship(ship)
+    end
   end
 
-  def user_places_submarine(submarine)
-    print "Enter the squares for the Submarine (2 spaces):\n>"
-    input = gets.chomp.upcase
-    coordinates = input.split(" ")
-    until @user_board.valid_placement?(submarine, coordinates)
-      print "Those are invalid coordinates. Please try again:\n>"
-      input = gets.chomp.upcase
-      coordinates = input.split(" ")
+  def user_places_one_ship(ship)
+    coordinates = get_coordinates_from_user(ship)
+    until @user_board.valid_placement?(ship, coordinates)
+      coordinates = user_gave_invalid_coordinates
     end
-    @user_board.place(submarine, coordinates)
+    @user_board.place(ship, coordinates)
     puts @user_board.render(true)
   end
 
-  def user_places_cruiser(cruiser)
-    print "Enter the squares for the Cruiser (3 spaces):\n>"
-    input = gets.chomp.upcase
-    coordinates = input.split(" ")
-    until @user_board.valid_placement?(cruiser, coordinates)
-      print "Those are invalid coordinates. Please try again:\n>"
-      input = gets.chomp.upcase
-      coordinates = input.split(" ")
-    end
-    @user_board.place(cruiser, coordinates)
+  def get_coordinates_from_user(ship)
+    print "Enter the squares for the #{ship.name.capitalize} (#{ship.length} spaces):\n>"
+    gets.chomp.upcase.split(" ")
+  end
+
+  def user_gave_invalid_coordinates
+    print "Those are invalid coordinates. Please try again:\n>"
+    gets.chomp.upcase.split(" ")
   end
 
   def execute_turn

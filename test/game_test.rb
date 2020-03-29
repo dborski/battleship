@@ -35,8 +35,8 @@ class GameTest < Minitest::Test
   end
 
   def test_user_ship_placement
-    skip
-    @game.user_places_ships(@submarine_user, @cruiser_user)
+
+    @game.user_places_ships
     puts @game.user_board.render(true)
   end
 
