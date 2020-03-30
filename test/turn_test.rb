@@ -32,6 +32,16 @@ class TurnTest < Minitest::Test
     assert_instance_of Board, @turn.computer_board
   end
 
+  def test_input_cell_render_value
+    assert_equal ".", @turn.input_cell_render_value(@user_board, "D4")
+
+    @turn.user_board.cells["D4"].fire_upon
+    assert_equal "M", @turn.input_cell_render_value(@user_board, "D4")
+
+    @turn.user_board.cells["A1"].fire_upon
+    assert_equal "H", @turn.input_cell_render_value(@user_board, "A1")
+  end
+
   def test_render_boards
     @turn.render_boards
   end
