@@ -33,8 +33,8 @@ class BoardTest < Minitest::Test
     assert_instance_of Cell, @board.cells["B2"]
     assert_instance_of Cell, @board.cells["C4"]
     refute_instance_of Cell, @board.cells["C5"]
-    refute_instance_of Cell, @board.cells["M5"]
-    refute_instance_of Cell, @board.cells["L5"]
+    refute_instance_of Cell, @board.cells["M1"]
+    refute_instance_of Cell, @board.cells["L1"]
   end
 
   def test_valid_coordinate_true

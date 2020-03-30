@@ -73,31 +73,27 @@ class Board
     end
   end
 
+  def ship_on_any_coordinate(coordinates)
+    coordinates.any? do |coordinate|
+      cells[coordinate].ship
+    end
+  end
+
   def check_all_valid_coordinates(ship, coordinates)
     coordinates.all? { |coordinate| valid_coordinate?(coordinate)}
   end
 
   def valid_placement?(ship, coordinates)
-    if check_all_valid_coordinates(ship, coordinates)
-      if ship_on_any_coordinate(coordinates) == true
-        false
-      else
-        if check_coordinates_same_letters(ship, coordinates) == true
-          coordinates.length == ship.length && nums_same_as_length(ship, coordinates)
-        elsif check_coordinates_same_nums(ship, coordinates) == true
-          letters_same_as_length(ship, coordinates)
-        elsif check_coordinates_same_letters(ship, coordinates) == false
-          false
-        end
+    if check_all_valid_coordinates(ship, coordinates) && ship_on_any_coordinate(coordinates) == false
+      if check_coordinates_same_letters(ship, coordinates) == true
+         coordinates.length == ship.length && nums_same_as_length(ship, coordinates)
+      elsif check_coordinates_same_nums(ship, coordinates) == true
+         letters_same_as_length(ship, coordinates)
+      elsif check_coordinates_same_letters(ship, coordinates) == false
+         false
       end
     else
       false
-    end
-  end
-
-  def ship_on_any_coordinate(coordinates)
-    coordinates.any? do |coordinate|
-      cells[coordinate].ship
     end
   end
 
