@@ -25,8 +25,16 @@ class BoardTest < Minitest::Test
   end
 
   def test_keys_point_to_instances_of_cells
-    assert_instance_of Cell, @board.cells.values.first
-    assert_instance_of Cell, @board.cells.values.last
+    assert_instance_of Cell, @board.cells["A1"]
+    assert_instance_of Cell, @board.cells["A4"]
+    assert_instance_of Cell, @board.cells["D1"]
+    assert_instance_of Cell, @board.cells["D4"]
+    assert_instance_of Cell, @board.cells["B1"]
+    assert_instance_of Cell, @board.cells["B2"]
+    assert_instance_of Cell, @board.cells["C4"]
+    refute_instance_of Cell, @board.cells["C5"]
+    refute_instance_of Cell, @board.cells["M5"]
+    refute_instance_of Cell, @board.cells["L5"]
   end
 
   def test_valid_coordinate_true
@@ -53,11 +61,6 @@ class BoardTest < Minitest::Test
     assert_equal false, @board.check_coordinates_same_letters(@submarine, ["B2", "C2"])
   end
 
-  def test_coordinate_letters
-    assert_equal [65, 65, 65], @board.coordinate_letters(@cruiser, ["A1", "A2", "A3"])
-    assert_equal [65, 65], @board.coordinate_letters(@submarine, ["A2", "A3"])
-  end
-
   def test_consecutive_letters_by_length
     assert_equal [[65, 66, 67], [66, 67, 68]], @board.consecutive_letters_by_length(@cruiser, ["A1", "A2", "A3"])
     assert_equal [[65, 66], [66, 67], [67, 68]], @board.consecutive_letters_by_length(@submarine, ["A2", "A3"])
@@ -66,6 +69,28 @@ class BoardTest < Minitest::Test
   def test_coordinate_nums
     assert_equal [1, 2, 3], @board.coordinate_nums(@cruiser, ["A1", "A2", "A3"])
     assert_equal [2, 3], @board.coordinate_nums(@submarine, ["A2", "A3"])
+  end
+
+  def test_coordinate_letters
+    assert_equal [65, 65, 65], @board.coordinate_letters(@cruiser, ["A1", "A2", "A3"])
+    assert_equal [65, 65], @board.coordinate_letters(@submarine, ["A2", "A3"])
+  end
+
+  def test_nums_same_as_length
+    assert_equal true, @board.nums_same_as_length(@cruiser, ["A1", "A2", "A3"])
+    assert_equal true, @board.nums_same_as_length(@submarine, ["A2", "A3"])
+  end
+
+  def test_letters_same_as_length
+    assert_equal true, @board.letters_same_as_length(@cruiser, ["A1", "B1", "C1"])
+    assert_equal true, @board.letters_same_as_length(@submarine, ["A2", "B2"])
+  end
+
+  def test_all_valid_coordinates
+    assert_equal true, @board.check_all_valid_coordinates(@cruiser, ["A1", "B1", "C1"])
+    assert_equal true, @board.check_all_valid_coordinates(@submarine, ["A2", "B2"])
+    assert_equal false, @board.check_all_valid_coordinates(@cruiser, ["A1", "B1", "D5"])
+    assert_equal false, @board.check_all_valid_coordinates(@submarine, ["A2", "C5"])
   end
 
   def test_valid_coordinate_false

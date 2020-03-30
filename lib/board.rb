@@ -61,17 +61,31 @@ class Board
     end
   end
 
+  def nums_same_as_length(ship, coordinates)
+    consecutive_nums_by_length(ship, coordinates).any? do |nums|
+     nums == coordinate_nums(ship, coordinates)
+    end
+  end
+
+  def letters_same_as_length(ship, coordinates)
+    consecutive_letters_by_length(ship, coordinates).any? do |letter|
+      letter == coordinate_letters(ship, coordinates)
+    end
+  end
+
+  def check_all_valid_coordinates(ship, coordinates)
+    coordinates.all? { |coordinate| valid_coordinate?(coordinate)}
+  end
+
   def valid_placement?(ship, coordinates)
-    if coordinates.all? { |coordinate| valid_coordinate?(coordinate)}
+    if check_all_valid_coordinates(ship, coordinates)
       if ship_on_any_coordinate(coordinates) == true
         false
       else
         if check_coordinates_same_letters(ship, coordinates) == true
-          coordinates.length == ship.length && consecutive_nums_by_length(ship, coordinates).any?{ |nums| nums == coordinate_nums(ship, coordinates)}
+          coordinates.length == ship.length && nums_same_as_length(ship, coordinates)
         elsif check_coordinates_same_nums(ship, coordinates) == true
-          consecutive_letters_by_length(ship, coordinates).any? do |letter|
-            letter == coordinate_letters(ship, coordinates)
-          end
+          letters_same_as_length(ship, coordinates)
         elsif check_coordinates_same_letters(ship, coordinates) == false
           false
         end
