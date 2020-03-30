@@ -1,28 +1,107 @@
 class Game
 
-  attr_reader :user_board, :computer_board, :user_ships, :computer_ships
-  def initialize(user_board, computer_board, user_ships, computer_ships)
+  attr_reader :user_board, :computer_board
+  def initialize(user_board, computer_board)
     @user_board = user_board
     @computer_board = computer_board
-    @user_ships = user_ships
-    @computer_ships = computer_ships
+    @user_ships = [Ship.new("Submarine", 2), Ship.new("Cruiser", 3)]
+    @computer_ships = [Ship.new("Submarine", 2), Ship.new("Cruiser", 3)]
+  end
+
+  def start
+    while true
+      main_menu
+      computer_places_ships
+      tell_user_to_place_ships
+      user_places_ships
+      until user_lost || computer_lost
+        execute_turn
+      end
+      final_result
+    end
   end
 
   def main_menu
-    puts "Welcome to BATTLESHIP"
-    puts "Enter p to play. Enter q to quit."
-    input = gets.chomp.downcase
+    input = welcome_message
     until input == "p" || input == "q"
-      puts "Welcome to BATTLESHIP"
-      puts "Enter p to play. Enter q to quit."
-      input = gets.chomp.downcase
+      input = welcome_message
     end
-
     if input == "p"
       return
     elsif input == "q"
       exit
     end
+  end
+
+  def welcome_message
+    puts "Welcome to BATTLESHIP"
+    puts "Enter p to play. Enter q to quit."
+    gets.chomp.downcase
+  end
+
+  def computer_places_ships
+    @computer_ships.each do |ship|
+      random_ship_placement(ship)
+    end
+  end
+
+  def tell_user_to_place_ships
+    print "I have laid out my ships on the grid.\nYou now need to lay out your two ships.\n"
+    puts list_of_ships
+    puts @user_board.render
+  end
+
+  def list_of_ships
+    @user_ships.reduce("") do |ships_list, ship|
+      if ship == @user_ships.first
+        ships_list += "The #{ship.name.capitalize} is #{ship.length} units long"
+      elsif ship == @user_ships.last
+        ships_list += " and the #{ship.name.capitalize} is #{ship.length} units long."
+      else
+        ships_list +=  ", the #{ship.name.capitalize} is #{ship.length} units long."
+      end
+    end
+  end
+
+  def random_ship_placement(ship)
+    coordinates = []
+    ship.length.times {coordinates <<  computer_chooses_random_cell }
+    until @computer_board.valid_placement?(ship, coordinates)
+      coordinates.shift
+      coordinates << computer_chooses_random_cell
+    end
+    @computer_board.place(ship, coordinates)
+  end
+
+  def computer_chooses_random_cell
+    @computer_board.cells.keys.shuffle[0]
+  end
+
+  def user_places_ships
+    @user_ships.each do |ship|
+      user_places_one_ship(ship)
+    end
+  end
+
+  def user_places_one_ship(ship)
+    coordinates = get_coordinates_from_user(ship)
+    until @user_board.valid_placement?(ship, coordinates)
+      coordinates = user_gave_invalid_coordinates
+    end
+    @user_board.place(ship, coordinates)
+    unless ship == @user_ships.last
+      puts @user_board.render(true)
+    end
+  end
+
+  def get_coordinates_from_user(ship)
+    print "Enter the squares for the #{ship.name.capitalize} (#{ship.length} spaces):\n>"
+    gets.chomp.upcase.split(" ")
+  end
+
+  def user_gave_invalid_coordinates
+    print "Those are invalid coordinates. Please try again:\n>"
+    gets.chomp.upcase.split(" ")
   end
 
   def execute_turn
@@ -44,77 +123,12 @@ class Game
     end
   end
 
-  def start
-    while true
-      main_menu
-      computer_places_ships
-      user_places_ships
-      until user_lost || computer_lost
-        execute_turn
-      end
-      if user_lost
-        puts "I won!"
-      else computer_lost
-        puts "You won!"
-      end
+  def final_result
+    if user_lost
+      puts "I won!"
+    elsif computer_lost
+      puts "You won!"
     end
-  end
-
-  def computer_places_ships(submarine = @computer_ships[0], cruiser = @computer_ships[1])
-    computer_places_submarine(submarine)
-    computer_places_cruiser(cruiser)
-    puts "I have laid out my ships on the grid.\nYou now need to lay out your two ships.\nThe Sumbarine is 2 units long and the Cruiser is 3 units long."
-    puts @user_board.render
-  end
-
-  def computer_places_submarine(submarine)
-    coordinates = []
-    submarine.length.times {coordinates <<  @computer_board.cells.keys.shuffle[0] }
-    until @computer_board.valid_placement?(submarine, coordinates)
-      coordinates.shift
-      coordinates << @computer_board.cells.keys.shuffle[0]
-    end
-    @computer_board.place(submarine, coordinates)
-  end
-
-  def computer_places_cruiser(cruiser)
-    coordinates = []
-    cruiser.length.times { coordinates << @computer_board.cells.keys.shuffle[0]}
-    until @computer_board.valid_placement?(cruiser, coordinates)
-      coordinates.shift
-      coordinates << @computer_board.cells.keys.shuffle[0]
-    end
-    @computer_board.place(cruiser, coordinates)
-  end
-
-  def user_places_ships(submarine = @user_ships[0], cruiser = @user_ships[1])
-    user_places_submarine(submarine)
-    user_places_cruiser(cruiser)
-  end
-
-  def user_places_submarine(submarine)
-    print "Enter the squares for the Submarine (2 spaces):\n>"
-    input = gets.chomp.upcase
-    coordinates = input.split(" ")
-    until @user_board.valid_placement?(submarine, coordinates)
-      print "Those are invalid coordinates. Please try again:\n>"
-      input = gets.chomp.upcase
-      coordinates = input.split(" ")
-    end
-    @user_board.place(submarine, coordinates)
-    puts @user_board.render(true)
-  end
-
-  def user_places_cruiser(cruiser)
-    print "Enter the squares for the Cruiser (3 spaces):\n>"
-    input = gets.chomp.upcase
-    coordinates = input.split(" ")
-    until @user_board.valid_placement?(cruiser, coordinates)
-      print "Those are invalid coordinates. Please try again:\n>"
-      input = gets.chomp.upcase
-      coordinates = input.split(" ")
-    end
-    @user_board.place(cruiser, coordinates)
   end
 
 end
