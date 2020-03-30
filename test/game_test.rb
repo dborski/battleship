@@ -29,6 +29,10 @@ class GameTest < Minitest::Test
     puts @game.computer_board.render(true)
   end
 
+  def test_list_of_ships
+    assert_equal "The Submarine is 2 units long and the Cruiser is 3 units long." , @game.list_of_ships
+  end
+
   def test_user_ship_placement
     skip
     @game.user_places_ships
@@ -41,6 +45,7 @@ class GameTest < Minitest::Test
   end
 
   def test_start_game
+    skip
     @game.start
   end
 end
