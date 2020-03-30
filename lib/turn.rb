@@ -16,9 +16,11 @@ class Turn
     until @computer_board.cells[input].render == "."
       input = coordinate_already_fired_upon
     end
-    render_value_hash = {"M" => "was a miss", "H"=> "was a hit", "X"=>"sunk the ship"}
+    render_value_hash = {"M" => "was a miss", "H"=> "was a hit", "X"=>"sunk my"}
     @computer_board.cells[input].fire_upon
-    puts "Your shot on #{input} #{render_value_hash[@computer_board.cells[input].render]}."
+    print "Your shot on #{input} "
+    puts "#{render_value_hash[@computer_board.cells[input].render]}." if @computer_board.cells[input].render == "M" || @computer_board.cells[input].render == "H"
+    puts "#{render_value_hash[@computer_board.cells[input].render]} #{@computer_board.cells[input].ship.name}" if @computer_board.cells[input].render == "X"
   end
 
   def computer_shoots
@@ -26,9 +28,11 @@ class Turn
     until @user_board.cells[input].render == "."
       input = @user_board.cells.keys.shuffle[0]
     end
-    render_value_hash = {"M" => "was a miss", "H"=> "was a hit", "X"=>"sunk the ship"}
+    render_value_hash = {"M" => "was a miss", "H"=> "was a hit", "X"=>"sunk your"}
     @user_board.cells[input].fire_upon
-    puts "My shot on #{input} #{render_value_hash[@user_board.cells[input].render]}."
+    print "My shot on #{input} "
+    puts "#{render_value_hash[@user_board.cells[input].render]}." if @user_board.cells[input].render == "M" || @user_board.cells[input].render == "H"
+    puts "#{render_value_hash[@user_board.cells[input].render]} #{@user_board.cells[input].ship.name}" if @user_board.cells[input].render == "X"
   end
 
   def get_user_input
