@@ -34,6 +34,40 @@ class BoardTest < Minitest::Test
     assert_equal true, @board.valid_coordinate?("D4")
   end
 
+  def test_can_find_consecutive_coordinates_by_length_of_ship
+    assert_equal [[1, 2, 3], [2, 3, 4]], @board.consecutive_nums_by_length(@cruiser, ["A1", "A2", "A3"])
+    assert_equal [[1, 2], [2, 3], [3, 4]], @board.consecutive_nums_by_length(@submarine, ["A2", "A3"])
+  end
+
+  def test_coordinates_same_numbers
+    assert_equal false, @board.check_coordinates_same_nums(@cruiser, ["A1", "A2", "A3"])
+    assert_equal false, @board.check_coordinates_same_nums(@submarine, ["A2", "A3"])
+    assert_equal true, @board.check_coordinates_same_nums(@cruiser, ["B1", "C1", "D1"])
+    assert_equal true, @board.check_coordinates_same_nums(@submarine, ["B2", "C2"])
+  end
+
+  def test_coordinate_same_letters
+    assert_equal true, @board.check_coordinates_same_letters(@cruiser, ["A1", "A2", "A3"])
+    assert_equal true, @board.check_coordinates_same_letters(@submarine, ["A2", "A3"])
+    assert_equal false, @board.check_coordinates_same_letters(@cruiser, ["A1", "B1", "C1"])
+    assert_equal false, @board.check_coordinates_same_letters(@submarine, ["B2", "C2"])
+  end
+
+  def test_coordinate_letters
+    assert_equal [65, 65, 65], @board.coordinate_letters(@cruiser, ["A1", "A2", "A3"])
+    assert_equal [65, 65], @board.coordinate_letters(@submarine, ["A2", "A3"])
+  end
+
+  def test_consecutive_letters_by_length
+    assert_equal [[65, 66, 67], [66, 67, 68]], @board.consecutive_letters_by_length(@cruiser, ["A1", "A2", "A3"])
+    assert_equal [[65, 66], [66, 67], [67, 68]], @board.consecutive_letters_by_length(@submarine, ["A2", "A3"])
+  end
+
+  def test_coordinate_nums
+    assert_equal [1, 2, 3], @board.coordinate_nums(@cruiser, ["A1", "A2", "A3"])
+    assert_equal [2, 3], @board.coordinate_nums(@submarine, ["A2", "A3"])
+  end
+
   def test_valid_coordinate_false
     assert_equal false, @board.valid_coordinate?("A5")
     assert_equal false, @board.valid_coordinate?("E1")
