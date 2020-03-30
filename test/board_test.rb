@@ -86,6 +86,14 @@ class BoardTest < Minitest::Test
     assert_equal true, @board.letters_same_as_length(@submarine, ["A2", "B2"])
   end
 
+  def test_ship_on_any_coordinate
+    assert_equal false, @board.ship_on_any_coordinate(["A1", "A2", "A3"])
+    @board.place(@cruiser, ["A1", "A2", "A3"])
+    @board.place(@submarine, ["C3", "D3"])
+    assert_equal true, @board.ship_on_any_coordinate(["A1", "B1", "C1"])
+    assert_equal true, @board.ship_on_any_coordinate(["D3", "D4"])
+  end
+
   def test_all_valid_coordinates
     assert_equal true, @board.check_all_valid_coordinates(@cruiser, ["A1", "B1", "C1"])
     assert_equal true, @board.check_all_valid_coordinates(@submarine, ["A2", "B2"])

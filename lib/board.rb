@@ -84,7 +84,8 @@ class Board
   end
 
   def valid_placement?(ship, coordinates)
-    if check_all_valid_coordinates(ship, coordinates) && ship_on_any_coordinate(coordinates) == false
+    return false if ship_on_any_coordinate(coordinates) == true
+    check_all_valid_coordinates(ship, coordinates) && ship_on_any_coordinate(coordinates) == false
       if check_coordinates_same_letters(ship, coordinates) == true
          coordinates.length == ship.length && nums_same_as_length(ship, coordinates)
       elsif check_coordinates_same_nums(ship, coordinates) == true
@@ -92,9 +93,6 @@ class Board
       elsif check_coordinates_same_letters(ship, coordinates) == false
          false
       end
-    else
-      false
-    end
   end
 
   def place(ship, coordinates)
