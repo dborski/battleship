@@ -125,9 +125,17 @@ class Board
     end.uniq
   end
 
+  def first_line
+    size = Math.sqrt(@coordinates.length)
+    first_line = " "
+    (1..size).each do |num|
+      first_line.concat(" #{num.to_s}")
+    end
+    first_line.concat("\n")
+  end
+
   def render(ship_shown = false)
-    # size = Math.sqrt(@coordinates.length)
-    lines = ["  1 2 3 4\n"]
+    lines = [first_line]
     each_coordinate_letter.each do |letter|
       new_line = "#{letter}\n"
       cells.each do |coordinate, cell|

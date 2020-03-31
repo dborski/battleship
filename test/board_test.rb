@@ -41,14 +41,6 @@ class BoardTest < Minitest::Test
     assert_equal ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4"], @board.generate_coordinates
   end
 
-  # def test_generate_single_coordinate
-  #   assert_equal "A1", @board.generate_single_coordinate(1)
-  #   assert_equal "A2", @board.generate_single_coordinate(2)
-  #   assert_equal "A3", @board.generate_single_coordinate(3)
-  #   assert_equal "A4", @board.generate_single_coordinate(4)
-  #   assert_equal "B1", @board.generate_single_coordinate(5)
-  # end
-
   def test_valid_coordinate_true
     assert_equal true, @board.valid_coordinate?("A1")
     assert_equal true, @board.valid_coordinate?("D4")
@@ -167,6 +159,10 @@ class BoardTest < Minitest::Test
 
   def test_each_coordinate_letter
     assert_equal ["A", "B", "C", "D"], @board.each_coordinate_letter
+  end
+
+  def test_first_line
+    assert_equal "  1 2 3 4\n", @board.first_line
   end
 
   def test_render
