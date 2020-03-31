@@ -17,51 +17,59 @@ class Board
     cells[coordinate]&.coordinate == coordinate
   end
 
-  def valid_placement?(ship, coordinates)
+  def consecutive_nums_by_length(ship, coordinates)
     consecutive_coordinates = []
     (1..4).each_cons(ship.length) do |nums|
       consecutive_coordinates << nums
     end
+    consecutive_coordinates
+  end
 
-    coordinate_nums = coordinates.map do |coordinate|
-      coordinate.split('')[1].to_i
+  def consecutive_letters_by_length(ship, coordinates)
+    consecutive_letters_sorted = []
+    ("A".ord.."D".ord).each_cons(ship.length) do |letter|
+      consecutive_letters_sorted << letter
     end
+    consecutive_letters_sorted
+  end
 
+  def check_coordinates_same_nums(ship, coordinates)
     first_coordinate = coordinates.first.chars.last
     coordinate_same_nums = coordinates.all? do |coordinate|
       coordinate[1] == first_coordinate
     end
+    coordinate_same_nums
+  end
 
+  def check_coordinates_same_letters(ship, coordinates)
     first_letter = coordinates.first.chars.first
-    coordinate_letters_boolean = coordinates.all? do |coordinate|
+    coordinate_letters = coordinates.all? do |coordinate|
       coordinate[0] == first_letter
     end
+    coordinate_letters
+  end
 
-    consecutive_letters = []
-    ("A".ord.."D".ord).each_cons(ship.length) do |letter|
-      consecutive_letters << letter
+  def coordinate_nums(ship, coordinates)
+    coordinates.map do |coordinate|
+        coordinate.split('')[1].to_i
     end
+  end
 
-    coordinate_letters = coordinates.map do |coordinate|
+  def coordinate_letters(ship, coordinates)
+    coordinates.map do |coordinate|
       coordinate.split('')[0].ord
     end
+  end
 
-    if coordinates.all? { |coordinate| valid_coordinate?(coordinate)}
-      if ship_on_any_coordinate(coordinates) == true
-        false
-      else
-        if coordinate_letters_boolean == true
-          coordinates.length == ship.length && consecutive_coordinates.any?{ |nums| nums == coordinate_nums}
-        elsif coordinate_same_nums == true
-          consecutive_letters.any? do |letter|
-            letter == coordinate_letters
-          end
-        elsif coordinate_letters_boolean == false
-          false
-        end
-      end
-    else
-      false
+  def nums_same_as_length(ship, coordinates)
+    consecutive_nums_by_length(ship, coordinates).any? do |nums|
+     nums == coordinate_nums(ship, coordinates)
+    end
+  end
+
+  def letters_same_as_length(ship, coordinates)
+    consecutive_letters_by_length(ship, coordinates).any? do |letter|
+      letter == coordinate_letters(ship, coordinates)
     end
   end
 
@@ -69,6 +77,22 @@ class Board
     coordinates.any? do |coordinate|
       cells[coordinate].ship
     end
+  end
+
+  def check_all_valid_coordinates(ship, coordinates)
+    coordinates.all? { |coordinate| valid_coordinate?(coordinate)}
+  end
+
+  def valid_placement?(ship, coordinates)
+    return false if ship_on_any_coordinate(coordinates) == true
+    check_all_valid_coordinates(ship, coordinates) && ship_on_any_coordinate(coordinates) == false
+      if check_coordinates_same_letters(ship, coordinates) == true
+         coordinates.length == ship.length && nums_same_as_length(ship, coordinates)
+      elsif check_coordinates_same_nums(ship, coordinates) == true
+         letters_same_as_length(ship, coordinates)
+      elsif check_coordinates_same_letters(ship, coordinates) == false
+         false
+      end
   end
 
   def place(ship, coordinates)
