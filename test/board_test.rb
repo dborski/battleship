@@ -165,6 +165,10 @@ class BoardTest < Minitest::Test
     assert_equal false, @board.valid_placement?(@submarine, ["A1", "B1"])
   end
 
+  def test_each_coordinate_letter
+    assert_equal ["A", "B", "C", "D"], @board.each_coordinate_letter
+  end
+
   def test_render
     @board.place(@cruiser, ["A1", "A2", "A3"])
     @board.render(false)

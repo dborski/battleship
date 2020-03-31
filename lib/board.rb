@@ -119,31 +119,24 @@ class Board
     end
   end
 
+  def each_coordinate_letter
+    coordinates.map do |coordinate|
+      coordinate[0]
+    end.uniq
+  end
+
   def render(ship_shown = false)
-    a_line = "A\n"
-    b_line = "B\n"
-    c_line = "C\n"
-    d_line = "D\n"
-
-    cells.each do |coordinate, cell|
-      if coordinate.chars.first == "A"
-         a_line.gsub!("\n", (" " + cell.render(ship_shown) + "\n"))
-      elsif coordinate.chars.first == "B"
-        b_line.gsub!("\n", (" " + cell.render(ship_shown) + "\n"))
-      elsif coordinate.chars.first == "C"
-        c_line.gsub!("\n", (" " + cell.render(ship_shown) + "\n"))
-      elsif coordinate.chars.first == "D"
-        d_line.gsub!("\n", (" " + cell.render(ship_shown) + "\n"))
+    # size = Math.sqrt(@coordinates.length)
+    lines = ["  1 2 3 4\n"]
+    each_coordinate_letter.each do |letter|
+      new_line = "#{letter}\n"
+      cells.each do |coordinate, cell|
+        if coordinate[0] == letter
+          new_line.gsub!(("\n"), (" " + cell.render(ship_shown) + "\n"))
+        end
       end
+      lines << new_line
     end
-
-     rendered =
-     ("  1 2 3 4 \n" +
-      a_line +
-      b_line +
-      c_line +
-      d_line)
-
-      rendered
+    lines.join("")
   end
 end
