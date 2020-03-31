@@ -37,10 +37,27 @@ class BoardTest < Minitest::Test
     refute_instance_of Cell, @board.cells["L1"]
   end
 
+  def test_generate_coordinates
+    assert_equal ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4"], @board.generate_coordinates
+  end
+
+  # def test_generate_single_coordinate
+  #   assert_equal "A1", @board.generate_single_coordinate(1)
+  #   assert_equal "A2", @board.generate_single_coordinate(2)
+  #   assert_equal "A3", @board.generate_single_coordinate(3)
+  #   assert_equal "A4", @board.generate_single_coordinate(4)
+  #   assert_equal "B1", @board.generate_single_coordinate(5)
+  # end
+
   def test_valid_coordinate_true
     assert_equal true, @board.valid_coordinate?("A1")
     assert_equal true, @board.valid_coordinate?("D4")
   end
+
+  def test_create_arrays_of_nums
+    assert_equal ["1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3", "4"], @board.create_array_of_nums(4).flatten
+  end
+
 
   def test_can_find_consecutive_coordinates_by_length_of_ship
     assert_equal [[1, 2, 3], [2, 3, 4]], @board.consecutive_nums_by_length(@cruiser, ["A1", "A2", "A3"])

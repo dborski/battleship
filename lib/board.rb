@@ -1,9 +1,10 @@
 class Board
 
-  attr_reader :cells
+  attr_reader :cells, :coordinates
   def initialize
     @cells = Hash.new
-    @coordinates = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4",]
+    @coordinates = []
+    generate_coordinates
     generate_cells
   end
 
@@ -11,6 +12,19 @@ class Board
     @coordinates.each do |coordinate|
       cells[coordinate] = Cell.new(coordinate)
     end
+  end
+
+  def generate_coordinates(size = 4)
+    nums_array = create_array_of_nums(size)
+    @coordinates = nums_array.each_with_index.map do |nums, index|
+      nums.map{ |num| (index.ord + 65).chr + num}
+    end.flatten
+  end
+
+  def create_array_of_nums(size)
+    nums_array = []
+    size.times { nums_array << (1..size).to_a }
+    nums_array.map{ |nums| nums.map{ |num| num.to_s } }
   end
 
   def valid_coordinate?(coordinate)
