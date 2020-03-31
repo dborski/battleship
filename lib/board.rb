@@ -33,7 +33,8 @@ class Board
 
   def consecutive_nums_by_length(ship, coordinates)
     consecutive_coordinates = []
-    (1..4).each_cons(ship.length) do |nums|
+    board_width = Math.sqrt(@coordinates.length)
+    (1..board_width).each_cons(ship.length) do |nums|
       consecutive_coordinates << nums
     end
     consecutive_coordinates
@@ -41,7 +42,8 @@ class Board
 
   def consecutive_letters_by_length(ship, coordinates)
     consecutive_letters_sorted = []
-    ("A".ord.."D".ord).each_cons(ship.length) do |letter|
+    board_height = Math.sqrt(@coordinates.length) + 64
+    ("A".ord..board_height).each_cons(ship.length) do |letter|
       consecutive_letters_sorted << letter
     end
     consecutive_letters_sorted
