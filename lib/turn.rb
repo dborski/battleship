@@ -12,23 +12,55 @@ class Turn
   end
 
   def user_shoots
+    input = user_input
+    @computer_board.cells[input].fire_upon
+    print_user_shot_result(input)
+  end
+
+  def user_input
     input = get_user_input
-    until @computer_board.cells[input].render == "."
+    until input_cell_render_value(@computer_board, input) == "."
       input = coordinate_already_fired_upon
     end
-    render_value_hash = {"M" => "was a miss", "H"=> "was a hit", "X"=>"sunk the ship"}
-    @computer_board.cells[input].fire_upon
-    puts "Your shot on #{input} #{render_value_hash[@computer_board.cells[input].render]}."
+    input
+  end
+
+  def print_user_shot_result(input)
+    render_value_hash = {"M" => "was a miss", "H"=> "was a hit", "X"=>"sunk my"}
+    print "Your shot on #{input} "
+    if input_cell_render_value(@computer_board, input) == "M" || input_cell_render_value(@computer_board, input) == "H"
+      puts "#{render_value_hash[input_cell_render_value(@computer_board, input)]}."
+    elsif input_cell_render_value(@computer_board, input) == "X"
+      puts "#{render_value_hash[input_cell_render_value(@computer_board, input)]} #{@computer_board.cells[input].ship.name}"
+    end
   end
 
   def computer_shoots
+    input = computer_input
+    @user_board.cells[input].fire_upon
+    print_computer_shot_result(input)
+  end
+
+  def computer_input
     input = @user_board.cells.keys.shuffle[0]
-    until @user_board.cells[input].render == "."
+    until input_cell_render_value(@user_board, input) == "."
       input = @user_board.cells.keys.shuffle[0]
     end
-    render_value_hash = {"M" => "was a miss", "H"=> "was a hit", "X"=>"sunk the ship"}
-    @user_board.cells[input].fire_upon
-    puts "My shot on #{input} #{render_value_hash[@user_board.cells[input].render]}."
+    input
+  end
+
+  def print_computer_shot_result(input)
+    render_value_hash = {"M" => "was a miss", "H"=> "was a hit", "X"=>"sunk your"}
+    print "My shot on #{input} "
+    if input_cell_render_value(@user_board, input) == "M" || input_cell_render_value(@user_board, input) == "H"
+      puts "#{render_value_hash[input_cell_render_value(@user_board, input)]}."
+    elsif input_cell_render_value(@user_board, input) == "X"
+      puts "#{render_value_hash[input_cell_render_value(@user_board, input)]} #{@user_board.cells[input].ship.name}"
+    end
+  end
+
+  def input_cell_render_value(board, input)
+    board.cells[input].render
   end
 
   def get_user_input
