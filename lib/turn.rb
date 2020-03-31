@@ -12,27 +12,51 @@ class Turn
   end
 
   def user_shoots
+    input = user_input
+    @computer_board.cells[input].fire_upon
+    print_user_shot_result(input)
+  end
+
+  def user_input
     input = get_user_input
     until input_cell_render_value(@computer_board, input) == "."
       input = coordinate_already_fired_upon
     end
+    input
+  end
+
+  def print_user_shot_result(input)
     render_value_hash = {"M" => "was a miss", "H"=> "was a hit", "X"=>"sunk my"}
-    @computer_board.cells[input].fire_upon
     print "Your shot on #{input} "
-    puts "#{render_value_hash[input_cell_render_value(@computer_board, input)]}." if input_cell_render_value(@computer_board, input) == "M" || input_cell_render_value(@computer_board, input) == "H"
-    puts "#{render_value_hash[input_cell_render_value(@computer_board, input)]} #{@computer_board.cells[input].ship.name}" if input_cell_render_value(@computer_board, input) == "X"
+    if input_cell_render_value(@computer_board, input) == "M" || input_cell_render_value(@computer_board, input) == "H"
+      puts "#{render_value_hash[input_cell_render_value(@computer_board, input)]}."
+    elsif input_cell_render_value(@computer_board, input) == "X"
+      puts "#{render_value_hash[input_cell_render_value(@computer_board, input)]} #{@computer_board.cells[input].ship.name}"
+    end
   end
 
   def computer_shoots
+    input = computer_input
+    @user_board.cells[input].fire_upon
+    print_computer_shot_result(input)
+  end
+
+  def computer_input
     input = @user_board.cells.keys.shuffle[0]
     until input_cell_render_value(@user_board, input) == "."
       input = @user_board.cells.keys.shuffle[0]
     end
+    input
+  end
+
+  def print_computer_shot_result(input)
     render_value_hash = {"M" => "was a miss", "H"=> "was a hit", "X"=>"sunk your"}
-    @user_board.cells[input].fire_upon
     print "My shot on #{input} "
-    puts "#{render_value_hash[input_cell_render_value(@user_board, input)]}." if input_cell_render_value(@user_board, input) == "M" || input_cell_render_value(@user_board, input) == "H"
-    puts "#{render_value_hash[input_cell_render_value(@user_board, input)]} #{@user_board.cells[input].ship.name}" if input_cell_render_value(@user_board, input) == "X"
+    if input_cell_render_value(@user_board, input) == "M" || input_cell_render_value(@user_board, input) == "H"
+      puts "#{render_value_hash[input_cell_render_value(@user_board, input)]}."
+    elsif input_cell_render_value(@user_board, input) == "X"
+      puts "#{render_value_hash[input_cell_render_value(@user_board, input)]} #{@user_board.cells[input].ship.name}"
+    end
   end
 
   def input_cell_render_value(board, input)
