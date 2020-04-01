@@ -8,10 +8,7 @@ require './lib/game'
 
 class GameTest < Minitest::Test
   def setup
-    @user_board = Board.new
-    @computer_board = Board.new
-
-    @game = Game.new(@user_board, @computer_board)
+    @game = Game.new
   end
 
   def test_it_exists
@@ -45,7 +42,7 @@ class GameTest < Minitest::Test
   end
 
   def test_start_game
-    skip
     @game.start
   end
+
 end

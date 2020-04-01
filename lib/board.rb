@@ -1,9 +1,11 @@
 class Board
 
-  attr_reader :cells
-  def initialize
+  attr_reader :cells, :coordinates
+  def initialize(size = 4)
     @cells = Hash.new
-    @coordinates = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4",]
+    @coordinates = []
+    @size = size
+    generate_coordinates
     generate_cells
   end
 
@@ -13,13 +15,27 @@ class Board
     end
   end
 
+  def generate_coordinates
+    nums_array = create_array_of_nums()
+    @coordinates = nums_array.each_with_index.map do |nums, index|
+      nums.map{ |num| (index.ord + 65).chr + num}
+    end.flatten
+  end
+
+  def create_array_of_nums
+    nums_array = []
+    @size.times { nums_array << (1..@size).to_a }
+    nums_array.map{ |nums| nums.map{ |num| num.to_s } }
+  end
+
   def valid_coordinate?(coordinate)
     cells[coordinate]&.coordinate == coordinate
   end
 
   def consecutive_nums_by_length(ship, coordinates)
     consecutive_coordinates = []
-    (1..4).each_cons(ship.length) do |nums|
+    board_width = Math.sqrt(@coordinates.length)
+    (1..board_width).each_cons(ship.length) do |nums|
       consecutive_coordinates << nums
     end
     consecutive_coordinates
@@ -27,16 +43,17 @@ class Board
 
   def consecutive_letters_by_length(ship, coordinates)
     consecutive_letters_sorted = []
-    ("A".ord.."D".ord).each_cons(ship.length) do |letter|
+    board_height = Math.sqrt(@coordinates.length) + 64
+    ("A".ord..board_height).each_cons(ship.length) do |letter|
       consecutive_letters_sorted << letter
     end
     consecutive_letters_sorted
   end
 
   def check_coordinates_same_nums(ship, coordinates)
-    first_coordinate = coordinates.first.chars.last
+    first_coordinate = coordinates.first.chars[-1..1].join
     coordinate_same_nums = coordinates.all? do |coordinate|
-      coordinate[1] == first_coordinate
+      coordinate.chars[-1..1].join == first_coordinate
     end
     coordinate_same_nums
   end
@@ -51,7 +68,7 @@ class Board
 
   def coordinate_nums(ship, coordinates)
     coordinates.map do |coordinate|
-        coordinate.split('')[1].to_i
+      coordinate.chars[1..-1].join.to_i
     end
   end
 
@@ -103,31 +120,31 @@ class Board
     end
   end
 
-  def render(ship_shown = false)
-    a_line = "A\n"
-    b_line = "B\n"
-    c_line = "C\n"
-    d_line = "D\n"
+  def each_coordinate_letter
+    coordinates.map do |coordinate|
+      coordinate[0]
+    end.uniq
+  end
 
-    cells.each do |coordinate, cell|
-      if coordinate.chars.first == "A"
-         a_line.gsub!("\n", (" " + cell.render(ship_shown) + "\n"))
-      elsif coordinate.chars.first == "B"
-        b_line.gsub!("\n", (" " + cell.render(ship_shown) + "\n"))
-      elsif coordinate.chars.first == "C"
-        c_line.gsub!("\n", (" " + cell.render(ship_shown) + "\n"))
-      elsif coordinate.chars.first == "D"
-        d_line.gsub!("\n", (" " + cell.render(ship_shown) + "\n"))
-      end
+  def first_line
+    first_line = " "
+    (1..@size).each do |num|
+      first_line.concat(" #{num.to_s}")
     end
+    first_line.concat("\n")
+  end
 
-     rendered =
-     ("  1 2 3 4 \n" +
-      a_line +
-      b_line +
-      c_line +
-      d_line)
-
-      rendered
+  def render(ship_shown = false)
+    lines = [first_line]
+    each_coordinate_letter.each do |letter|
+      new_line = "#{letter}\n"
+      cells.each do |coordinate, cell|
+        if coordinate[0] == letter
+          new_line.gsub!(("\n"), (" " + cell.render(ship_shown) + "\n"))
+        end
+      end
+      lines << new_line
+    end
+    lines.join("")
   end
 end
