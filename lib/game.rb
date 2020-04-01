@@ -1,9 +1,9 @@
 class Game
 
   attr_reader :user_board, :computer_board
-  def initialize(user_board, computer_board)
-    @user_board = user_board
-    @computer_board = computer_board
+  def initialize
+    @user_board = nil
+    @computer_board = nil
     @user_ships = [Ship.new("Submarine", 2), Ship.new("Cruiser", 3)]
     @computer_ships = [Ship.new("Submarine", 2), Ship.new("Cruiser", 3)]
   end
@@ -11,6 +11,7 @@ class Game
   def start
     while true
       main_menu
+      variable_boards
       computer_places_ships
       tell_user_to_place_ships
       user_places_ships
@@ -18,6 +19,7 @@ class Game
         execute_turn
       end
       final_result
+      reset_ships
     end
   end
 
@@ -37,6 +39,22 @@ class Game
     puts "Welcome to BATTLESHIP"
     puts "Enter p to play. Enter q to quit."
     gets.chomp.downcase
+  end
+
+  def variable_boards
+    size = ask_for_a_number
+    until size > 3 && size > 10
+      size = ask_for_a_number
+    end
+    @user_board = Board.new(size)
+    @computer_board = Board.new(size)
+  end
+
+
+  def ask_for_a_number
+    puts "What size board would you like to play on?"
+    puts "Enter a number between 4 and 10 to determine the width/height of your grid."
+    gets.chomp.to_i
   end
 
   def computer_places_ships
@@ -129,6 +147,11 @@ class Game
     elsif computer_lost
       puts "You won!"
     end
+  end
+
+  def reset_ships
+    @user_ships = [Ship.new("Submarine", 2), Ship.new("Cruiser", 3)]
+    @computer_ships = [Ship.new("Submarine", 2), Ship.new("Cruiser", 3)]
   end
 
 end
