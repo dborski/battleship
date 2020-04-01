@@ -1,6 +1,6 @@
 class Board
 
-  attr_reader :cells, :coordinates
+  attr_reader :cells, :coordinates, :size
   def initialize(size = 4)
     @cells = Hash.new
     @coordinates = []
