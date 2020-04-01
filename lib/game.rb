@@ -126,6 +126,7 @@ class Game
     turn = Turn.new(@user_board, @computer_board)
     turn.render_boards
     turn.user_shoots
+    return if computer_lost
     turn.computer_shoots
   end
 
