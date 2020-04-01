@@ -14,7 +14,7 @@ class Board
     end
   end
 
-  def generate_coordinates(size = 4)
+  def generate_coordinates(size = 12)
     nums_array = create_array_of_nums(size)
     @coordinates = nums_array.each_with_index.map do |nums, index|
       nums.map{ |num| (index.ord + 65).chr + num}
@@ -50,9 +50,9 @@ class Board
   end
 
   def check_coordinates_same_nums(ship, coordinates)
-    first_coordinate = coordinates.first.chars.last
+    first_coordinate = coordinates.first.chars[-1..1].join
     coordinate_same_nums = coordinates.all? do |coordinate|
-      coordinate[1] == first_coordinate
+      coordinate.chars[-1..1].join == first_coordinate
     end
     coordinate_same_nums
   end
@@ -67,7 +67,7 @@ class Board
 
   def coordinate_nums(ship, coordinates)
     coordinates.map do |coordinate|
-        coordinate.split('')[1].to_i
+      coordinate.chars[1..-1].join.to_i
     end
   end
 

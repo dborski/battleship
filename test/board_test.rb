@@ -195,4 +195,9 @@ class BoardTest < Minitest::Test
     cell3.fire_upon
     @board.render(true)
   end
+
+  def test_place_ship_on_double_digit_board
+    skip
+    assert_equal true, @board.valid_placement?(@cruiser, ["A10", "A11", "A12"])
+  end
 end
