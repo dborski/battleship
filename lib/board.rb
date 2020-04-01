@@ -18,7 +18,7 @@ class Board
   def generate_coordinates
     nums_array = create_array_of_nums()
     @coordinates = nums_array.each_with_index.map do |nums, index|
-      nums.map{ |num| (index.ord + 65).chr + num}
+      nums.map{ |num| (index + 65).chr + num}
     end.flatten
   end
 
@@ -34,7 +34,7 @@ class Board
 
   def consecutive_nums_by_length(ship, coordinates)
     consecutive_coordinates = []
-    board_width = Math.sqrt(@coordinates.length)
+    board_width = @size
     (1..board_width).each_cons(ship.length) do |nums|
       consecutive_coordinates << nums
     end
@@ -43,7 +43,7 @@ class Board
 
   def consecutive_letters_by_length(ship, coordinates)
     consecutive_letters_sorted = []
-    board_height = Math.sqrt(@coordinates.length) + 64
+    board_height = @size + 64
     ("A".ord..board_height).each_cons(ship.length) do |letter|
       consecutive_letters_sorted << letter
     end
@@ -51,9 +51,9 @@ class Board
   end
 
   def check_coordinates_same_nums(ship, coordinates)
-    first_coordinate = coordinates.first.chars[-1..1].join
+    first_coordinate = coordinates.first.chars[1..-1].join
     coordinate_same_nums = coordinates.all? do |coordinate|
-      coordinate.chars[-1..1].join == first_coordinate
+      coordinate.chars[1..-1].join == first_coordinate
     end
     coordinate_same_nums
   end
@@ -121,9 +121,7 @@ class Board
   end
 
   def each_coordinate_letter
-    coordinates.map do |coordinate|
-      coordinate[0]
-    end.uniq
+    coordinates.map {|coordinate| coordinate[0]}.uniq
   end
 
   def first_line

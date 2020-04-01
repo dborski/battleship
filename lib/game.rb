@@ -43,7 +43,7 @@ class Game
 
   def variable_boards
     size = ask_for_a_number
-    until size > 3 && size < 10
+    until size > 3 && size < 11
       size = ask_for_a_number
     end
     @user_board = Board.new(size)
@@ -126,6 +126,7 @@ class Game
     turn = Turn.new(@user_board, @computer_board)
     turn.render_boards
     turn.user_shoots
+    return if computer_lost
     turn.computer_shoots
   end
 
