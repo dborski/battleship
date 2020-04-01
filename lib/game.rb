@@ -43,7 +43,7 @@ class Game
 
   def variable_boards
     size = ask_for_a_number
-    until size > 3 && size > 10
+    until size > 3 && size < 10
       size = ask_for_a_number
     end
     @user_board = Board.new(size)
