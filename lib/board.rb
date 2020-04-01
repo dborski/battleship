@@ -1,9 +1,10 @@
 class Board
 
   attr_reader :cells, :coordinates
-  def initialize
+  def initialize(size = 4)
     @cells = Hash.new
     @coordinates = []
+    @size = size
     generate_coordinates
     generate_cells
   end
@@ -14,16 +15,16 @@ class Board
     end
   end
 
-  def generate_coordinates(size = 12)
-    nums_array = create_array_of_nums(size)
+  def generate_coordinates
+    nums_array = create_array_of_nums()
     @coordinates = nums_array.each_with_index.map do |nums, index|
       nums.map{ |num| (index.ord + 65).chr + num}
     end.flatten
   end
 
-  def create_array_of_nums(size)
+  def create_array_of_nums
     nums_array = []
-    size.times { nums_array << (1..size).to_a }
+    @size.times { nums_array << (1..@size).to_a }
     nums_array.map{ |nums| nums.map{ |num| num.to_s } }
   end
 
@@ -126,9 +127,8 @@ class Board
   end
 
   def first_line
-    size = Math.sqrt(@coordinates.length)
     first_line = " "
-    (1..size).each do |num|
+    (1..@size).each do |num|
       first_line.concat(" #{num.to_s}")
     end
     first_line.concat("\n")

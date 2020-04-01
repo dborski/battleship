@@ -47,7 +47,7 @@ class BoardTest < Minitest::Test
   end
 
   def test_create_arrays_of_nums
-    assert_equal ["1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3", "4"], @board.create_array_of_nums(4).flatten
+    assert_equal ["1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3", "4"], @board.create_array_of_nums.flatten
   end
 
 
