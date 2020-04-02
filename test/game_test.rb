@@ -20,6 +20,13 @@ class GameTest < Minitest::Test
     @game.main_menu
   end
 
+  def test_it_creates_ships
+    @game.create_ships
+
+    assert_equal [Ship.new("Submarine", 2), Ship.new("Cruiser", 3)], @game.user_ships
+    assert_equal [Ship.new("Submarine", 2), Ship.new("Cruiser", 3)], @game.computer_ships
+  end
+
   def test_computer_ship_placement
     skip
     @game.computer_places_ships

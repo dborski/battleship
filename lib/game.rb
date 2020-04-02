@@ -12,6 +12,7 @@ class Game
     while true
       main_menu
       variable_boards
+      create_ships
       computer_places_ships
       tell_user_to_place_ships
       user_places_ships
@@ -57,6 +58,61 @@ class Game
     gets.chomp.to_i
   end
 
+  def create_ships
+    user_input = ask_user_to_create_ships
+    until user_input == "y" || user_input == "n"
+      user_input = ask_user_to_create_ships
+    end
+    return if user_input == "n"
+    @user_ships.clear
+    @computer_ships.clear
+    number_of_ships = ask_user_for_how_many_ships
+    number_of_ships.times do |num|
+      if num == 0
+        ship_name = get_name
+      else
+        ship_name = other_names
+      end
+      ship_length = get_length
+      @user_ships << Ship.new(ship_name, ship_length)
+      @computer_ships << Ship.new(ship_name, ship_length)
+    end
+  end
+
+  def ask_user_to_create_ships
+    puts "Would you like to create your own custom ships or use the default ones? Y or N. The default ships are Cruiser (length 3) and Submarine (length 2)"
+    gets.chomp.downcase
+  end
+
+  def get_name
+    puts "What would you like to call your first ship?"
+    gets.chomp
+  end
+
+  def other_names
+    puts "What would you like to call your next ship?"
+    gets.chomp
+  end
+
+  def get_length
+    puts "How long is your ship? It must be shorter than the width of your board"
+    input = gets.chomp.to_i
+    until input < @user_board.size && input > 0
+      puts "That length is invalid"
+      input = gets.chomp.to_i
+    end
+    input
+  end
+
+  def ask_user_for_how_many_ships
+    puts "How many ships would you like to create? You are allowed to make #{(@user_board.size / 2 + 1).to_i} ships."
+    input = gets.chomp.to_i
+    until input <= (@user_board.size / 2 + 1).to_i
+      input = gets.chomp.to_i
+    end
+    input
+  end
+
   def computer_places_ships
     @computer_ships.each do |ship|
       random_ship_placement(ship)
@@ -76,7 +132,7 @@ class Game
       elsif ship == @user_ships.last
         ships_list += " and the #{ship.name.capitalize} is #{ship.length} units long."
       else
-        ships_list +=  ", the #{ship.name.capitalize} is #{ship.length} units long."
+        ships_list +=  ", the #{ship.name.capitalize} is #{ship.length} units long"
       end
     end
   end
