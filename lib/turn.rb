@@ -33,11 +33,19 @@ class Turn
     elsif input_cell_render_value(@computer_board, input) == "X"
       puts "#{render_value_hash[input_cell_render_value(@computer_board, input)]} #{@computer_board.cells[input].ship.name}"
     end
+    puts
   end
 
   def computer_shoots
     input = computer_input
     @user_board.cells[input].fire_upon
+    puts "Thinking"
+    puts "."
+    sleep(1)
+    puts ".."
+    sleep(1)
+    puts "..."
+    sleep(1)
     print_computer_shot_result(input)
   end
 
@@ -57,6 +65,7 @@ class Turn
     elsif input_cell_render_value(@user_board, input) == "X"
       puts "#{render_value_hash[input_cell_render_value(@user_board, input)]} #{@user_board.cells[input].ship.name}"
     end
+    puts
   end
 
   def input_cell_render_value(board, input)
