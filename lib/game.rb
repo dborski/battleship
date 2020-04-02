@@ -80,7 +80,8 @@ class Game
   end
 
   def ask_user_to_create_ships
-    puts "Would you like to create your own custom ships or use the default ones? Y or N. The default ships are Cruiser (length 3) and Submarine (length 2)"
+    puts "Would you like to create your own custom ships or use the default ones?"
+    puts "The default ships are Cruiser (length 3) and Submarine (length 2) Y or N?"
     gets.chomp.downcase
   end
 
@@ -117,6 +118,13 @@ class Game
     @computer_ships.each do |ship|
       random_ship_placement(ship)
     end
+    puts "Thinking"
+    puts "."
+    sleep(1)
+    puts ".."
+    sleep(1)
+    puts "..."
+    sleep(1)
   end
 
   def tell_user_to_place_ships
